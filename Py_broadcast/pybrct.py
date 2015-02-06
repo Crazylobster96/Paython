@@ -24,7 +24,7 @@ def write_erro(errstr):
             f_log.write('\n')
             LogMessage.remove(LogMessage[0])
             logcount -= 1
-        f_log.close()
+    f_log.close()
     lglock.release()
     
 def write_log(log):
@@ -63,7 +63,7 @@ def BroadCast(b_message,timeout):
     broadcast_s.setsockopt(socket.SOL_SOCKET,socket.SO_BROADCAST,1)
     broadcast_s.sendto(b_message,dest)
 
-def BrdC_Recv():
+#def BrdC_Recv():
     
 def Main_thread():
     global lglock, msglock,logcount, LogMessage, MessageBox
