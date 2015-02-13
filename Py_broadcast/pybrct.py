@@ -19,11 +19,11 @@ def write_erro(errstr):
     logcount += 1
     f_log = open('log.txt','a')
     while (logcount > 0):
-            f_log.write(LogMessage[0])
-            f_log.write('\n')
-            LogMessage.remove(LogMessage[0])
-            logcount -= 1
-        f_log.close()
+        f_log.write(LogMessage[0])
+        f_log.write('\n')
+        LogMessage.remove(LogMessage[0])
+        logcount -= 1
+    f_log.close()
     lglock.release()
     
 def write_log(log):
@@ -57,10 +57,11 @@ def Sync_log():
     lglock.release()
 
 def BroadCast(b_message,timeout):
+    port = 51423
     dest = ('<broadcast>',port)
     broadcast_s = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
     broadcast_s.setsockopt(socket.SOL_SOCKET,socket.SO_BROADCAST,1)
-    broadcast_s.sendto(b_message,dest)
+    broadcast_s.sendto(b_message.encode(),dest)
 
 def BrdC_Recv():
     host = ''
@@ -71,16 +72,23 @@ def BrdC_Recv():
     RecS.bind((host,port))
     while 1:
         try:
-            message,address = s.recvfrom(8192)
-            print "Got data from",address
+            message,address = RecS.recvfrom(8192)
+            print ("Got data from",address,message.decode())
+        except(KeyboardInterrupt,SystemExit):
+            raise
     
 def Main_thread():
     global lglock, msglock,logcount, LogMessage, MessageBox
     write_log('Main thread start!')
     #start recv thread;
+    recv_T = threading.Thread(target = BrdC_Recv,args=())
+    recv_T.start()
     
     #broadcast self
+    BroadCast("hello world!",10)
     #join thread recv;
+    recv_T.join()
+   
     Sync_log()
      
 def main():
