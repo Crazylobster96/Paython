@@ -8,7 +8,8 @@ msglock = threading.Lock()
 logcount = 0
 LogMessage = []
 MessageBox = []
-
+host = ''
+port = '51423'
 
 def write_erro(errstr):
     global lglock, msglock,logcount, LogMessage, MessageBox
@@ -64,6 +65,7 @@ def BroadCast(b_message,timeout):
     broadcast_s.sendto(b_message.encode(),dest)
 
 def BrdC_Recv():
+<<<<<<< HEAD
     host = ''
     port = 51423
     RecS = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
@@ -76,6 +78,8 @@ def BrdC_Recv():
             print ("Got data from",address,message.decode())
         except(KeyboardInterrupt,SystemExit):
             raise
+=======
+>>>>>>> origin/master
     
 def Main_thread():
     global lglock, msglock,logcount, LogMessage, MessageBox
