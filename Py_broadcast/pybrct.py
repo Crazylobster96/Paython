@@ -2,6 +2,7 @@
 # UDP Broadcast Server
 import socket, traceback, sys
 import threading, time
+import re
 
 lglock = threading.Lock()
 msglock = threading.Lock()
@@ -79,6 +80,7 @@ def BrdC_Recv():
             msglock.release()
         except(KeyboardInterrupt,SystemExit):
             raise
+<<<<<<< HEAD
       
 def getMessage():
     global lglock, msglock,logcount, LogMessage, MessageBox
@@ -93,19 +95,34 @@ def WOrkThread():
         tmpmsg = getMessage()
         #analysis the message str
         
+=======
+        
+def work_Thread():
+    pattern = 'w+\|'
+    print("in worktrhread\n")
+    m=re.match('aaa|bbb|ccc|ddd|',pattern)
+    if m == None:
+        m.group()
+        print(m)
+    else:
+        print('ttt!\n')
+    print('XX\n')
+>>>>>>> origin/master
     
     
 def Main_thread():
     global lglock, msglock,logcount, LogMessage, MessageBox
     write_log('Main thread start!')
     #start recv thread;
-    recv_T = threading.Thread(target = BrdC_Recv,args=())
-    recv_T.start()
+    work_Thread()
+    #recv_T = threading.Thread(target = BrdC_Recv,args=())
+    #recv_T.start()
     
     #broadcast self
     BroadCast("hello world!",10)
+   
     #join thread recv;
-    recv_T.join()
+    #recv_T.join()
    
     Sync_log()
      
